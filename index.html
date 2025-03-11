@@ -3,23 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Site Web</title>
+    <title>Bienvenue sur Mon Site</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Bienvenue sur mon site</h1>
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Bienvenue sur Mon Site Web</h1>
+            <p>Découvrez mon univers et mes projets.</p>
+            <a href="#about" class="btn-primary">En savoir plus</a>
+        </div>
     </header>
-    
-    <main>
-        <section>
-            <h2>À propos de moi</h2>
-            <p>Je suis développeur et voici mon site !</p>
-        </section>
-    </main>
+
+    <section id="about" class="about">
+        <h2>À propos de moi</h2>
+        <p>Je suis passionné par le développement web et je suis en constante évolution. Voici mes projets récents.</p>
+    </section>
 
     <footer>
-        <p>&copy; 2025 Mon Site Web</p>
+        <p>&copy; 2025 Mon Site Web. Tous droits réservés.</p>
     </footer>
 
     <script src="script.js"></script>
