@@ -3,25 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienvenue sur Mon Site</title>
+    <title>Scan Manga</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header class="hero">
-        <div class="hero-content">
-            <h1>Bienvenue sur Mon Site Web</h1>
-            <p>Découvrez mon univers et mes projets.</p>
-            <a href="#about" class="btn-primary">En savoir plus</a>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <h1>Scan Manga</h1>
         </div>
+        <nav>
+            <ul>
+                <li><a href="#">Accueil</a></li>
+                <li><a href="#">Genres</a></li>
+                <li><a href="#">Mangas</a></li>
+                <li><a href="#">A propos</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <section id="about" class="about">
-        <h2>À propos de moi</h2>
-        <p>Je suis passionné par le développement web et je suis en constante évolution. Voici mes projets récents.</p>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Les derniers mangas</h2>
+            <p>Explorez les mangas les plus populaires et commencez votre aventure !</p>
+        </div>
     </section>
 
+    <!-- Featured Mangas -->
+    <section class="mangas">
+        <h2>Mangas populaires</h2>
+        <div class="manga-list">
+            <div class="manga-item">
+                <img src="https://via.placeholder.com/200x300" alt="Manga 1">
+                <h3>Manga 1</h3>
+            </div>
+            <div class="manga-item">
+                <img src="https://via.placeholder.com/200x300" alt="Manga 2">
+                <h3>Manga 2</h3>
+            </div>
+            <div class="manga-item">
+                <img src="https://via.placeholder.com/200x300" alt="Manga 3">
+                <h3>Manga 3</h3>
+            </div>
+            <div class="manga-item">
+                <img src="https://via.placeholder.com/200x300" alt="Manga 4">
+                <h3>Manga 4</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer>
-        <p>&copy; 2025 Mon Site Web. Tous droits réservés.</p>
+        <p>&copy; 2025 Scan Manga. Tous droits réservés.</p>
     </footer>
 
     <script src="script.js"></script>

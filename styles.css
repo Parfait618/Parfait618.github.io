@@ -3,70 +3,110 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #f5f5f5;
     color: #333;
 }
 
-a {
+/* Header Styles */
+header {
+    background-color: #1a1a1a;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .logo h1 {
+    font-size: 2em;
+    margin: 0;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+}
+
+header nav ul li {
+    margin-left: 20px;
+}
+
+header nav ul li a {
+    color: white;
     text-decoration: none;
-    color: inherit;
+    font-size: 1.1em;
+}
+
+header nav ul li a:hover {
+    text-decoration: underline;
 }
 
 /* Hero Section */
 .hero {
-    background-image: url('https://example.com/your-image.jpg'); /* Remplace par ton image de fond */
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: #333;
     color: white;
+    padding: 80px 20px;
     text-align: center;
 }
 
-.hero-content h1 {
+.hero h2 {
     font-size: 3em;
-    margin: 0;
+    margin-bottom: 20px;
 }
 
-.hero-content p {
+.hero p {
     font-size: 1.2em;
-    margin-top: 20px;
 }
 
-.btn-primary {
-    margin-top: 30px;
-    padding: 10px 20px;
-    background-color: #ff6347;
-    color: white;
-    border-radius: 5px;
-    font-size: 1.2em;
-    transition: background-color 0.3s ease;
-}
-
-.btn-primary:hover {
-    background-color: #e55347;
-}
-
-/* About Section */
-.about {
-    padding: 60px 20px;
+/* Featured Mangas */
+.mangas {
+    padding: 40px 20px;
     text-align: center;
     background-color: #fff;
 }
 
-.about h2 {
+.mangas h2 {
     font-size: 2.5em;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
+.manga-list {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.manga-item {
+    background-color: #fafafa;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 200px;
+}
+
+.manga-item img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.manga-item h3 {
+    margin-top: 10px;
+    font-size: 1.2em;
+}
+
+/* Footer Styles */
 footer {
-    background-color: #333;
+    background-color: #1a1a1a;
     color: white;
     text-align: center;
     padding: 20px;
-    position: fixed;
+    position: relative;
     bottom: 0;
     width: 100%;
+}
+
+footer p {
+    margin: 0;
 }
