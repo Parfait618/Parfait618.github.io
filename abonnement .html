@@ -3,28 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abonnement</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Page d'Abonnement</title>
 </head>
 <body>
     <header>
-        <h1>Choisir votre Abonnement</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
+        <h1>Abonnez-vous maintenant</h1>
+        <p>Choisissez un abonnement parmi les options ci-dessous :</p>
+        <ul>
+            <li><strong>Abonnement mensuel :</strong> 5€/mois</li>
+            <li><strong>Abonnement annuel :</strong> 50€/an</li>
+            <li><strong>Abonnement à vie :</strong> 200€ (paiement unique)</li>
+        </ul>
+
+        <h2>Formulaire d'abonnement</h2>
+        <form action="success.html" method="POST">
+            <label for="option">Choisissez votre abonnement :</label>
+            <select name="option" id="option">
+                <option value="mensuel">Mensuel - 5€/mois</option>
+                <option value="annuel">Annuel - 50€/an</option>
+                <option value="a-vie">À vie - 200€</option>
+            </select><br><br>
+            <button type="submit">Souscrire</button>
+        </form>
+
+        <p>Si vous avez des questions, <a href="contact.html">contactez-nous</a>.</p>
     </header>
-
-    <section>
-        <h2>Abonnement Mensuel</h2>
-        <p>Accédez à tous nos services pendant un mois.</p>
-        <button>Souscrire</button>
-    </section>
-
-    <footer>
-        <p>&copy; 2025 Mon Service. Tous droits réservés.</p>
-    </footer>
 </body>
 </html>

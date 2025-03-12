@@ -4,32 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact</title>
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
         <h1>Contactez-nous</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="abonnement.html">Abonnement</a></li>
-            </ul>
-        </nav>
-    </header>
+        <p>Si vous avez des questions, remplissez ce formulaire pour nous contacter :</p>
 
-    <section>
-        <h2>Formulaire de Contact</h2>
-        <form action="#">
-            <label for="name">Nom :</label>
-            <input type="text" id="name" name="name" required>
-            <label for="message">Message :</label>
-            <textarea id="message" name="message" required></textarea>
+        <form action="mailto:tonemail@exemple.com" method="post" enctype="text/plain">
+            <label for="name">Nom :</label><br>
+            <input type="text" id="name" name="name"><br><br>
+
+            <label for="email">Email :</label><br>
+            <input type="email" id="email" name="email"><br><br>
+
+            <label for="message">Message :</label><br>
+            <textarea id="message" name="message"></textarea><br><br>
+
             <button type="submit">Envoyer</button>
         </form>
-    </section>
 
-    <footer>
-        <p>&copy; 2025 Mon Service. Tous droits réservés.</p>
-    </footer>
+        <p><a href="index.html">Retour à l'accueil</a></p>
+    </header>
 </body>
 </html>
