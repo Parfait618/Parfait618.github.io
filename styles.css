@@ -1,13 +1,11 @@
-/* Global Styles */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f5f5f5;
     color: #333;
 }
 
-/* Header Styles */
 header {
     background-color: #1a1a1a;
     color: white;
@@ -41,72 +39,60 @@ header nav ul li a:hover {
     text-decoration: underline;
 }
 
-/* Hero Section */
-.hero {
-    background-color: #333;
-    color: white;
-    padding: 80px 20px;
+.abonnement {
+    padding: 40px;
     text-align: center;
 }
 
-.hero h2 {
-    font-size: 3em;
-    margin-bottom: 20px;
-}
-
-.hero p {
-    font-size: 1.2em;
-}
-
-/* Featured Mangas */
-.mangas {
-    padding: 40px 20px;
-    text-align: center;
-    background-color: #fff;
-}
-
-.mangas h2 {
+.abonnement h2 {
     font-size: 2.5em;
     margin-bottom: 30px;
 }
 
-.manga-list {
+.abonnement-options {
     display: flex;
-    justify-content: center;
-    gap: 20px;
+    justify-content: space-around;
     flex-wrap: wrap;
+    gap: 20px;
 }
 
-.manga-item {
-    background-color: #fafafa;
-    padding: 15px;
+.option {
+    background-color: #fff;
+    padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
     width: 200px;
+    text-align: center;
 }
 
-.manga-item img {
-    width: 100%;
-    border-radius: 8px;
+.option h3 {
+    font-size: 1.5em;
+    margin: 10px 0;
 }
 
-.manga-item h3 {
-    margin-top: 10px;
-    font-size: 1.2em;
+.option p {
+    font-size: 1.1em;
+    margin: 10px 0;
 }
 
-/* Footer Styles */
+.subscribe-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.subscribe-button:hover {
+    background-color: #0056b3;
+}
+
+/* Footer */
 footer {
     background-color: #1a1a1a;
     color: white;
     text-align: center;
     padding: 20px;
-    position: relative;
-    bottom: 0;
-    width: 100%;
-}
-
-footer p {
-    margin: 0;
 }
