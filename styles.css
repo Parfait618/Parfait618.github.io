@@ -39,6 +39,7 @@ header nav ul li a:hover {
     text-decoration: underline;
 }
 
+/* Abonnement Section */
 .abonnement {
     padding: 40px;
     text-align: center;
@@ -89,7 +90,53 @@ header nav ul li a:hover {
     background-color: #0056b3;
 }
 
-/* Footer */
+/* Notation Section */
+.notation {
+    padding: 40px;
+    text-align: center;
+}
+
+.stars input[type="radio"] {
+    display: none;
+}
+
+.stars label {
+    font-size: 2em;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.stars input[type="radio"]:checked ~ label {
+    color: #ffbc00;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 1em;
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+/* Footer Styles */
 footer {
     background-color: #1a1a1a;
     color: white;
