@@ -7,23 +7,25 @@
 </head>
 <body>
     <header>
-        <h1>Contactez-nous sur Msix</h1>
-        <p>Si vous avez des questions, remplissez ce formulaire pour nous contacter :</p>
+        <h1>Contactez-nous</h1>
+        <p>Si vous avez des questions ou des commentaires, vous pouvez nous envoyer un message via le formulaire ci-dessous ou nous contacter directement par email à <a href="mailto:ahissoufirdaosse@gmail.com">ahissoufirdaosse@gmail.com</a>.</p>
 
-        <form action="mailto:tonemail@exemple.com" method="post" enctype="text/plain">
+        <h2>Formulaire de Contact</h2>
+        <form action="mailto:ahissoufirdaosse@gmail.com" method="post" enctype="text/plain">
             <label for="name">Nom :</label><br>
-            <input type="text" id="name" name="name"><br><br>
+            <input type="text" id="name" name="name" required><br><br>
 
             <label for="email">Email :</label><br>
-            <input type="email" id="email" name="email"><br><br>
+            <input type="email" id="email" name="email" required><br><br>
 
             <label for="message">Message :</label><br>
-            <textarea id="message" name="message"></textarea><br><br>
+            <textarea id="message" name="message" rows="4" required></textarea><br><br>
 
             <button type="submit">Envoyer</button>
         </form>
 
-        <p><a href="index.html">Retour à l'accueil</a></p>
+        <br>
+        <a href="index.html">Retour à l'accueil</a>
     </header>
 </body>
 </html>
