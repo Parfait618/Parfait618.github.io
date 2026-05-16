@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gabon Adresse Numérique - Prototype</title>
+    <title>Gabon Adresse Numérique - Registre National</title>
     <style>
         :root {
-            --primary-color: #009e49; /* Vert Gabon */
-            --secondary-color: #fcd116; /* Jaune Gabon */
+            --primary-color: #009e49;
+            --secondary-color: #fcd116;
             --dark-color: #333;
             --light-color: #f4f7f6;
         }
@@ -30,7 +30,6 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             max-width: 400px;
             width: 100%;
-            text-align: center;
         }
 
         .flag-bar {
@@ -45,78 +44,84 @@
         .flag-yellow { flex: 1; background-color: #fcd116; }
         .flag-blue { flex: 1; background-color: #3a75c4; }
 
-        h1 {
+        h1, h2 {
             color: var(--dark-color);
-            font-size: 24px;
-            margin-bottom: 10px;
+            text-align: center;
+            margin-top: 0;
         }
 
         p {
             color: #666;
             font-size: 14px;
+            text-align: center;
             margin-bottom: 25px;
         }
 
-        .btn-gps {
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #55px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .btn-gps, .btn-submit {
             background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 15px 25px;
-            font-size: 16px;
+            padding: 12px;
+            font-size: 15px;
             font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
             width: 100%;
             transition: background 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 158, 73, 0.3);
+            margin-top: 10px;
         }
 
-        .btn-gps:hover {
-            background-color: #00843d;
-        }
+        .btn-gps { background-color: #3a75c4; }
+        .btn-gps:hover { background-color: #2a5a9e; }
+        .btn-submit:hover { background-color: #00843d; }
 
         .result-box {
-            margin-top: 30px;
-            padding: 20px;
+            margin-top: 20px;
+            padding: 15px;
             background-color: #f9f9f9;
             border-radius: 8px;
             border: 1px solid #eee;
             display: none;
-        }
-
-        .address-title {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #999;
-            margin-bottom: 5px;
+            text-align: center;
         }
 
         .address-code {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: bold;
-            color: #3a75c4; /* Bleu Gabon */
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-        }
-
-        .coordinates {
-            font-size: 12px;
-            color: #777;
-            background: #eef2f5;
-            padding: 8px;
-            border-radius: 5px;
-            font-family: monospace;
+            color: #3a75c4;
+            letter-spacing: 1px;
+            margin: 10px 0;
         }
 
         .loader {
             display: none;
-            margin: 20px auto;
+            margin: 15px auto;
             border: 4px solid #f3f3f3;
             border-top: 4px solid var(--secondary-color);
             border-radius: 50%;
-            width: 30px;
-            height: 30px;
+            width: 25px;
+            height: 25px;
             animation: spin 1s linear infinite;
         }
 
@@ -135,110 +140,126 @@
         <div class="flag-blue"></div>
     </div>
     
-    <h1>Mon Adresse Nationale</h1>
-    <p>Générez instantanément votre identifiant de localisation unique, même sans connexion Internet stable.</p>
+    <h1>Enregistrement National</h1>
+    <p>Associez votre identité à votre code géographique unique pour figurer dans le registre.</p>
 
-    <button class="btn-gps" onclick="obtenirAdresse()">Générer mon adresse</button>
-    
+    <button class="btn-gps" onclick="obtenirLocalisation()">1. Capter ma position GPS</button>
     <div class="loader" id="loader"></div>
 
     <div class="result-box" id="resultBox">
-        <div class="address-title">Votre adresse numérique unique</div>
+        <div style="font-size: 12px; color: #999;">Votre code généré localement :</div>
         <div class="address-code" id="addressCode">GA-XXXX-XX</div>
-        <div class="coordinates" id="geoCoords">Lat: -- | Lon: --</div>
+    </div>
+
+    <div id="formulaireIdentite" style="margin-top: 20px; display: none;">
+        <h2>Détails du lieu</h2>
+        <div class="form-group">
+            <label for="nom">Nom complet de l'occupant</label>
+            <input type="text" id="nom" placeholder="Ex: Jean Mustapha">
+        </div>
+        <div class="form-group">
+            <label for="tel">Numéro de téléphone</label>
+            <input type="tel" id="tel" placeholder="Ex: +241 077... / 065...">
+        </div>
+        <div class="form-group">
+            <label for="desc">Description précise de la maison</label>
+            <textarea id="desc" rows="3" placeholder="Ex: Portail noir, barrière blanche, juste après l'épicerie du coin."></textarea>
+        </div>
+        <button class="btn-submit" onclick="enregistrerSurServeur()">2. Enregistrer l'adresse</button>
     </div>
 </div>
 
 <script>
-    // Alphabet utilisé pour le hachage (Base32 modifié pour éviter les confusions l/1, 0/O)
     const BASE32 = "0123456789bcdefghjkmnpqrstuvwxyz";
+    let coordonnesActuelles = { lat: null, lon: null };
+    let codeGenere = "";
 
-    // Algorithme de hachage spatial (Geohash de base) exécuté localement
+    // CONFIGURATION : Remplace cette URL par celle de ton serveur Railway une fois déployé
+    const SERVEUR_URL = "https://ton-projet-railway.up.railway.app";
+
     function encodeGeohash(lat, lon, precision = 9) {
-        let latMin = -90, latMax = 90;
-        let lonMin = -180, lonMax = 180;
-        let geohash = "";
-        let bit = 0;
-        let ch = 0;
-        let evenBit = true;
+        let latMin = -90, latMax = 90, lonMin = -180, lonMax = 180;
+        let geohash = "", bit = 0, ch = 0, evenBit = true;
 
         while (geohash.length < precision) {
             if (evenBit) {
                 let lonMid = (lonMin + lonMax) / 2;
-                if (lon >= lonMid) {
-                    ch |= (1 << (4 - bit));
-                    lonMin = lonMid;
-                } else {
-                    lonMax = lonMid;
-                }
+                if (lon >= lonMid) { ch |= (1 << (4 - bit)); lonMin = lonMid; } else { lonMax = lonMid; }
             } else {
                 let latMid = (latMin + latMax) / 2;
-                if (lat >= latMid) {
-                    ch |= (1 << (4 - bit));
-                    latMin = latMid;
-                } else {
-                    latMax = latMid;
-                }
+                if (lat >= latMid) { ch |= (1 << (4 - bit)); latMin = latMid; } else { latMax = latMid; }
             }
-
             evenBit = !evenBit;
-            if (bit < 4) {
-                bit++;
-            } else {
-                geohash += BASE32[ch];
-                bit = 0;
-                ch = 0;
-            }
+            if (bit < 4) { bit++; } else { geohash += BASE32[ch]; bit = 0; ch = 0; }
         }
         return geohash;
     }
 
-    function obtenirAdresse() {
-        const btn = document.querySelector('.btn-gps');
+    function obtenirLocalisation() {
         const loader = document.getElementById('loader');
         const resultBox = document.getElementById('resultBox');
+        const formulaire = document.getElementById('formulaireIdentite');
 
-        // Reset l'affichage
-        resultBox.style.display = "none";
-        
-        if (!navigator.geolocation) {
-            alert("La géolocalisation n'est pas supportée par votre navigateur.");
-            return;
-        }
+        if (!navigator.geolocation) return alert("Géolocalisation non supportée.");
 
-        btn.disabled = true;
         loader.style.display = "block";
+        resultBox.style.display = "none";
+        formulaire.style.display = "none";
 
-        // Récupération des coordonnées GPS réelles de l'appareil
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
+                coordonnesActuelles.lat = position.coords.latitude;
+                coordonnesActuelles.lon = position.coords.longitude;
 
-                // Génération du code unique à partir de la position
-                const hash = encodeGeohash(lat, lon, 9);
+                const hash = encodeGeohash(coordonnesActuelles.lat, coordonnesActuelles.lon, 9);
+                codeGenere = `GA-${hash.substring(0, 4).toUpperCase()}-${hash.substring(4, 9).toUpperCase()}`;
+
+                document.getElementById('addressCode').innerText = codeGenere;
                 
-                // Formatage personnalisé pour le Gabon (Ex: GA-W3EE-7VH8)
-                const partie1 = hash.substring(0, 4).toUpperCase();
-                const partie2 = hash.substring(4, 9).toUpperCase();
-                const adresseGabon = `GA-${partie1}-${partie2}`;
-
-                // Injection des résultats dans le HTML
-                document.getElementById('addressCode').innerText = adresseGabon;
-                document.getElementById('geoCoords').innerText = `Lat: ${lat.toFixed(6)} | Lon: ${lon.toFixed(6)}`;
-
-                // Affichage de la boîte de résultat
                 loader.style.display = "none";
                 resultBox.style.display = "block";
-                btn.disabled = false;
+                formulaire.style.display = "block"; // Affiche la suite du processus
             },
             (error) => {
                 loader.style.display = "none";
-                btn.disabled = false;
-                alert("Erreur GPS : Impossible d'accéder à votre position. Vérifiez vos autorisations.");
+                alert("Erreur GPS. Assurez-vous d'être en HTTPS et d'avoir activé votre localisation.");
             },
             { enableHighAccuracy: true, timeout: 10000 }
         );
+    }
+
+    function enregistrerSurServeur() {
+        const nom = document.getElementById('nom').value;
+        const telephone = document.getElementById('tel').value;
+        const description = document.getElementById('desc').value;
+
+        const payload = {
+            code: codeGenere,
+            lat: coordonnesActuelles.lat,
+            lon: coordonnesActuelles.lon,
+            nom: nom,
+            telephone: telephone,
+            description: description
+        };
+
+        // Envoi des données vers l'API Back-End sur Railway
+        fetch(`${SERVEUR_URL}/api/v1/address/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Félicitations ! Votre adresse est officiellement enregistrée au niveau national.");
+            } else {
+                alert("Erreur lors de l'enregistrement : " + data.error);
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Impossible de joindre le serveur national. Vérifiez l'URL de votre backend Railway.");
+        });
     }
 </script>
 
