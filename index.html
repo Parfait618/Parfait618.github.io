@@ -3,34 +3,244 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil - Msix</title>
+    <title>Gabon Adresse Numérique - Prototype</title>
+    <style>
+        :root {
+            --primary-color: #009e49; /* Vert Gabon */
+            --secondary-color: #fcd116; /* Jaune Gabon */
+            --dark-color: #333;
+            --light-color: #f4f7f6;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .flag-bar {
+            height: 6px;
+            width: 100%;
+            display: flex;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .flag-green { flex: 1; background-color: #009e49; }
+        .flag-yellow { flex: 1; background-color: #fcd116; }
+        .flag-blue { flex: 1; background-color: #3a75c4; }
+
+        h1 {
+            color: var(--dark-color);
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .btn-gps {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 158, 73, 0.3);
+        }
+
+        .btn-gps:hover {
+            background-color: #00843d;
+        }
+
+        .result-box {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            display: none;
+        }
+
+        .address-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 5px;
+        }
+
+        .address-code {
+            font-size: 28px;
+            font-weight: bold;
+            color: #3a75c4; /* Bleu Gabon */
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .coordinates {
+            font-size: 12px;
+            color: #777;
+            background: #eef2f5;
+            padding: 8px;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+
+        .loader {
+            display: none;
+            margin: 20px auto;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--secondary-color);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Bienvenue sur Msix</h1>
-        <p>Découvrez nos vidéos et profitez du contenu exclusif.</p>
 
-<a href="articles.html">Voir les articles</a>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6770315127653363"
-     crossorigin="anonymous"></script>
-     
-     
-     
-        <!-- Lien vers la page des vidéos -->
-        <a href="videos.html">Voir les vidéos</a>
+<div class="container">
+    <div class="flag-bar">
+        <div class="flag-green"></div>
+        <div class="flag-yellow"></div>
+        <div class="flag-blue"></div>
+    </div>
+    
+    <h1>Mon Adresse Nationale</h1>
+    <p>Générez instantanément votre identifiant de localisation unique, même sans connexion Internet stable.</p>
 
-        <!-- Lien vers la page d'abonnement -->
-        <a href="abonnement.html">Page d'abonnement</a>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6770315127653363"
-     crossorigin="anonymous"></script>
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-format="autorelaxed"
-     data-ad-client="ca-pub-6770315127653363"
-     data-ad-slot="5380179567"></ins>
+    <button class="btn-gps" onclick="obtenirAdresse()">Générer mon adresse</button>
+    
+    <div class="loader" id="loader"></div>
+
+    <div class="result-box" id="resultBox">
+        <div class="address-title">Votre adresse numérique unique</div>
+        <div class="address-code" id="addressCode">GA-XXXX-XX</div>
+        <div class="coordinates" id="geoCoords">Lat: -- | Lon: --</div>
+    </div>
+</div>
+
 <script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
+    // Alphabet utilisé pour le hachage (Base32 modifié pour éviter les confusions l/1, 0/O)
+    const BASE32 = "0123456789bcdefghjkmnpqrstuvwxyz";
+
+    // Algorithme de hachage spatial (Geohash de base) exécuté localement
+    function encodeGeohash(lat, lon, precision = 9) {
+        let latMin = -90, latMax = 90;
+        let lonMin = -180, lonMax = 180;
+        let geohash = "";
+        let bit = 0;
+        let ch = 0;
+        let evenBit = true;
+
+        while (geohash.length < precision) {
+            if (evenBit) {
+                let lonMid = (lonMin + lonMax) / 2;
+                if (lon >= lonMid) {
+                    ch |= (1 << (4 - bit));
+                    lonMin = lonMid;
+                } else {
+                    lonMax = lonMid;
+                }
+            } else {
+                let latMid = (latMin + latMax) / 2;
+                if (lat >= latMid) {
+                    ch |= (1 << (4 - bit));
+                    latMin = latMid;
+                } else {
+                    latMax = latMid;
+                }
+            }
+
+            evenBit = !evenBit;
+            if (bit < 4) {
+                bit++;
+            } else {
+                geohash += BASE32[ch];
+                bit = 0;
+                ch = 0;
+            }
+        }
+        return geohash;
+    }
+
+    function obtenirAdresse() {
+        const btn = document.querySelector('.btn-gps');
+        const loader = document.getElementById('loader');
+        const resultBox = document.getElementById('resultBox');
+
+        // Reset l'affichage
+        resultBox.style.display = "none";
+        
+        if (!navigator.geolocation) {
+            alert("La géolocalisation n'est pas supportée par votre navigateur.");
+            return;
+        }
+
+        btn.disabled = true;
+        loader.style.display = "block";
+
+        // Récupération des coordonnées GPS réelles de l'appareil
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+
+                // Génération du code unique à partir de la position
+                const hash = encodeGeohash(lat, lon, 9);
+                
+                // Formatage personnalisé pour le Gabon (Ex: GA-W3EE-7VH8)
+                const partie1 = hash.substring(0, 4).toUpperCase();
+                const partie2 = hash.substring(4, 9).toUpperCase();
+                const adresseGabon = `GA-${partie1}-${partie2}`;
+
+                // Injection des résultats dans le HTML
+                document.getElementById('addressCode').innerText = adresseGabon;
+                document.getElementById('geoCoords').innerText = `Lat: ${lat.toFixed(6)} | Lon: ${lon.toFixed(6)}`;
+
+                // Affichage de la boîte de résultat
+                loader.style.display = "none";
+                resultBox.style.display = "block";
+                btn.disabled = false;
+            },
+            (error) => {
+                loader.style.display = "none";
+                btn.disabled = false;
+                alert("Erreur GPS : Impossible d'accéder à votre position. Vérifiez vos autorisations.");
+            },
+            { enableHighAccuracy: true, timeout: 10000 }
+        );
+    }
 </script>
-    </header>
+
 </body>
 </html>
