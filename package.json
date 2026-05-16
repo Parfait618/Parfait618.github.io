@@ -1,0 +1,25 @@
+{
+  "name": "gabon-adresse-nationale-backend",
+  "version": "1.0.0",
+  "description": "API d'infrastructure pour le Système National d'Adressage Numérique du Gabon",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "geohash",
+    "api",
+    "gabon",
+    "adresse",
+    "gps"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
